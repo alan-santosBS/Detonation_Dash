@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Resultado da Partida</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>{% if stats.sucesso %}🏆 Desafio Concluído!{% else %}💥 Veículo Destruído!{% endif %}</h1>
+        
+        <div class="painel-info" style="flex-direction: column; text-align: left; gap: 10px;">
+            <p>⏱️ Tempo Transcorrido: <strong>{{ stats.tempo_total }}s</strong></p>
+            <p>💥 Bombas Explodidas: <strong>{{ stats.bombas_explodidas }}</strong></p>
+            <p>🧱 Tijolos Percorridos: <strong>{{ stats.tijolos_percorridos }}</strong></p>
+            <p>🛡️ Resistência Restante: <strong>{{ stats.resistência_restante }}</strong></p>
+        </div>
+
+        <a href="/selecionar_tamanho" style="color: #89b4fa; text-decoration: none; font-weight: bold;">🔄 Jogar Novamente</a>
+    </div>
+</body>
+</html>

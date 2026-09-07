@@ -6,18 +6,20 @@ class Tabuleiro:
         self.inicio = (0, 0)
         self.fim = (tamanho - 1, tamanho - 1)
         
-        # Garante a criação de um mapa com caminho solucionável
         valido = False
         while not valido:
-            # Inicialização de matriz bidimensional estática (sem métodos dinâmicos)
             self.matriz = [[0 for _ in range(tamanho)] for _ in range(tamanho)]
-            self.matriz[self.inicio[0]][self.inicio[1]] = 3  # Início
-            self.matriz[self.fim[0]][self.fim[1]] = 4         # Chegada
+            self.matriz[self.inicio[0]][self.inicio[1]] = 3
+            self.matriz[self.fim[0]][self.fim[1]] = 4
             
-            self._posicionar_elementos(1, qtd_bombas)   # Sorteia Bombas
-            self._posicionar_elementos(2, qtd_energias) # Sorteia Energias
+            self._posicionar_elementos(1, qtd_bombas)
+            self._posicionar_elementos(2, qtd_energias)
             
             valido = self.tem_caminho_valido()
+
+        # Matriz estática para controle de visibilidade (0 = oculta, 1 = revelada)
+        self.revelada = [[0 for _ in range(tamanho)] for _ in range(tamanho)]
+        self.revelar_celula(0, 0) # Revela a posição inicial
 
     def _posicionar_elementos(self, tipo_elemento, quantidade):
         colocados = 0
@@ -28,29 +30,39 @@ class Tabuleiro:
                 self.matriz[x][y] = tipo_elemento
                 colocados += 1
 
-    def tem_caminho_valido(self):
-        # Matriz estática de controle para posições já visitadas
-        visitado = [[0 for _ in range(self.tamanho)] for _ in range(self.tamanho)]
-        
-        def flood_fill(x, y):
-            # Parada 1: Posição fora dos limites do array
-            if x < 0 or x >= self.tamanho or y < 0 or y >= self.tamanho:
-                return False
-            # Parada 2: Encontrou bomba (1) ou célula já testada (1)
-            if self.matriz[x][y] == 1 or visitado[x][y] == 1:
-                return False
-            # Vitória: Alcançou o objetivo final (4)
-            if self.matriz[x][y] == 4:
-                return True
-            
-            visitado[x][y] = 1
-            
-            # Navegação recursiva em 4 direções
-            if flood_fill(x - 1, y): return True  # Cima
-            if flood_fill(x + 1, y): return True  # Baixo
-            if flood_fill(x, y - 1): return True  # Esquerda
-            if flood_fill(x, y + 1): return True  # Direita
-            
-            return False
+    def contar_bombas_vizinhas(self, x, y):
+        bombas = 0
+        for dx in [-1, 0, 1]:
+            for dy in [-1, 0, 1]:
+                if dx == 0 and dy == 0: continue
+                nx, ny = x + dx, y + dy
+                if 0 <= nx < self.tamanho and 0 <= ny < self.tamanho:
+                    if self.matriz[nx][ny] == 1: # 1 = Bomba
+                        bombas += 1
+        return bombas
 
+    def revelar_celula(self, x, y): # recursão onde revela vizinhos se não houver bombas ao redor
+        # Validação de limites
+        if x < 0 or x >= self.tamanho or y < 0 or y >= self.tamanho:
+            return
+        if self.revelada[x][y] == 1:
+            return
+
+        self.revelada[x][y] = 1
+
+        # RECURSÃO (Flood Fill): Se o tijolo for vazio e não tiver bombas ao redor, revela vizinhos!
+        if self.matriz[x][y] == 0 and self.contar_bombas_vizinhas(x, y) == 0:
+            for dx in [-1, 0, 1]:
+                for dy in [-1, 0, 1]:
+                    if dx != 0 or dy != 0:
+                        self.revelar_celula(x + dx, y + dy)
+
+    def tem_caminho_valido(self): # verifica se há um caminho do início ao fim sem passar por bombas, se não tiver ele cria outro mapa
+        visitado = [[0 for _ in range(self.tamanho)] for _ in range(self.tamanho)]
+        def flood_fill(x, y):
+            if x < 0 or x >= self.tamanho or y < 0 or y >= self.tamanho: return False
+            if self.matriz[x][y] == 1 or visitado[x][y] == 1: return False
+            if self.matriz[x][y] == 4: return True
+            visitado[x][y] = 1
+            return flood_fill(x-1, y) or flood_fill(x+1, y) or flood_fill(x, y-1) or flood_fill(x, y+1) # recursão onde o carrinho se move em quatro direção
         return flood_fill(self.inicio[0], self.inicio[1])

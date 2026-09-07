@@ -22,7 +22,7 @@ def selecionar_tamanho():
     return render_template('selecionar_tamanho.html')
 
 @app.route('/iniciar_jogo', methods=['POST'])
-def iniciar_jogo():
+def iniciar_jogo(): # Recebe os dados do formulário, cria o tabuleiro e o carro, e registra o tempo inicial da partida
     dados = request.get_json()
     tamanho = int(dados.get('tamanho', 10))
     qtd_bombas = int(dados.get('bombas', 5))
@@ -41,16 +41,20 @@ def jogo():
         return redirect(url_for('selecionar_tamanho'))
     return render_template('jogo.html')
 
-@app.route('/obter_estado', methods=['GET'])
+@app.route('/obter_estado', methods=['GET']) # Retorna o estado atual do jogo, incluindo a matriz do tabuleiro, a posição do carro, o tempo decorrido e outras informações relevantes
 def obter_estado():
-    # Envia o estado atual do tabuleiro e do carrinho para a tela
     carro = partida['carro']
     tabuleiro = partida['tabuleiro']
     tempo_decorrido = int(time.time() - partida['tempo_inicio'])
 
+    # Monta a matriz de bombas vizinhas
+    vizinhanca = [[tabuleiro.contar_bombas_vizinhas(i, j) for j in range(tabuleiro.tamanho)] for i in range(tabuleiro.tamanho)]
+
     return jsonify({
         'tamanho': tabuleiro.tamanho,
         'matriz': tabuleiro.matriz,
+        'revelada': tabuleiro.revelada,
+        'vizinhanca': vizinhanca,
         'carro': {
             'x': carro.x,
             'y': carro.y,
@@ -62,52 +66,39 @@ def obter_estado():
         'tempo_decorrido': tempo_decorrido
     })
 
-@app.route('/mover', methods=['POST'])
+@app.route('/mover', methods=['POST']) # Recebe os dados de movimento do carro e atualiza sua posição
 def mover():
     dados = request.get_json()
-    destino_x = dados.get('x')
-    destino_y = dados.get('y')
+    destino_x, destino_y = dados.get('x'), dados.get('y')
     eh_pulo = dados.get('pulo', False)
 
     carro = partida['carro']
     tabuleiro = partida['tabuleiro']
 
-    # Validação do movimento (muda de posição e processa a célula)
-    carro.mover_para(destino_x, destino_y)
-    
-    conteudo_celula = tabuleiro.matriz[destino_x][destino_y]
-    
-    if eh_pulo:
-        # Pular um tijolo ignora bomba e energia, mas conta como movimento percorrido
-        pass
-    else:
-        if conteudo_celula == 1:  # Bomba
-            carro.receber_dano()
-            tabuleiro.matriz[destino_x][destino_y] = 0  # Desativa bomba explodida
-        elif conteudo_celula == 2:  # Energia
-            carro.recarregar_energia()
-            tabuleiro.matriz[destino_x][destino_y] = 0  # Consome energia
+    # Valida movimento dentro dos limites da matriz
+    if 0 <= destino_x < tabuleiro.tamanho and 0 <= destino_y < tabuleiro.tamanho: # 
+        carro.mover_para(destino_x, destino_y)
+        conteudo_celula = tabuleiro.matriz[destino_x][destino_y]
 
-    # Checa condições de vitória ou derrota
+        if not eh_pulo:
+            if conteudo_celula == 1:
+                carro.receber_dano()
+                tabuleiro.matriz[destino_x][destino_y] = 0 # remove a bomba após a explosão
+            elif conteudo_celula == 2:
+                carro.recarregar_energia()
+                tabuleiro.matriz[destino_x][destino_y] = 0
+
+        # Dispara a revelação do mapa
+        tabuleiro.revelar_celula(destino_x, destino_y)
+
     derrota = carro.destruido()
     vitoria = (carro.x == tabuleiro.fim[0] and carro.y == tabuleiro.fim[1])
-
     if vitoria or derrota:
         partida['tempo_fim'] = time.time()
 
-    return jsonify({
-        'carro': {
-            'x': carro.x,
-            'y': carro.y,
-            'avarias_atuais': carro.avarias_atuais,
-            'campo_forca': carro.campo_forca,
-            'tijolos_percorridos': carro.tijolos_percorridos
-        },
-        'vitoria': vitoria,
-        'derrota': derrota
-    })
+    return jsonify({'vitoria': vitoria, 'derrota': derrota})
 
-@app.route('/estatisticas')
+@app.route('/estatisticas') # mostra as estatísticas finais da partida, incluindo tempo total, número de bombas explodidas, tijolos percorridos e resistência restante do carro
 def estatisticas():
     carro = partida['carro']
     tempo_total = int(partida['tempo_fim'] - partida['tempo_inicio']) if partida['tempo_fim'] else 0
@@ -121,6 +112,8 @@ def estatisticas():
         'resistência_restante': (carro.limite_avarias - carro.avarias_atuais) if carro else 0
     }
     return render_template('estatisticas.html', stats=dados_finais)
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)

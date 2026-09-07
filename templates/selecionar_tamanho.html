@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Configurar Tabuleiro - Carrinho</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <button class="btn-voltar" onclick="window.location.href='/'">⬅️ Voltar</button>
+    <div class="card-container">
+        <h2>Configurar Mapa</h2>
+        <p class="subtitulo">Escolha o tamanho da grade e a dificuldade:</p>
+
+        <!-- Seleção Rápida -->
+        <div class="presets-container">
+            <button type="button" class="btn-preset" onclick="aplicarPreset(8, 5, 3)">Fácil (8x8)</button>
+            <button type="button" class="btn-preset" onclick="aplicarPreset(12, 10, 5)">Médio (12x12)</button>
+            <button type="button" class="btn-preset" onclick="aplicarPreset(16, 18, 8)">Difícil (16x16)</button>
+        </div>
+
+        <form id="form-config" class="form-grid">
+            <div class="input-group">
+                <label for="tamanho">Dimensão da Matriz (N x N):</label>
+                <input type="number" id="tamanho" value="10" min="5" max="16" required>
+            </div>
+
+            <div class="input-group">
+                <label for="bombas">Quantidade de Bombas💣:</label>
+                <input type="number" id="bombas" value="6" min="1" required>
+            </div>
+
+            <div class="input-group">
+                <label for="energias">Cargas de Energia⚡:</label>
+                <input type="number" id="energias" value="4" min="1" required>
+            </div>
+
+            <button type="submit" class="btn-principal">Gerar Tabuleiro</button>
+        </form>
+    </div>
+
+    <script>
+        function aplicarPreset(tamanho, bombas, energias) {
+            document.getElementById('tamanho').value = tamanho;
+            document.getElementById('bombas').value = bombas;
+            document.getElementById('energias').value = energias;
+        }
+
+        document.getElementById('form-config').addEventListener('submit', (e) => {
+            e.preventDefault();
+            fetch('/iniciar_jogo', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    tamanho: document.getElementById('tamanho').value,
+                    bombas: document.getElementById('bombas').value,
+                    energias: document.getElementById('energias').value
+                })
+            })
+            .then(res => res.json())
+            .then(dados => window.location.href = dados.redirect);
+        });
+    </script>
+</body>
+</html>

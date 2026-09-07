@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Campo Minado - Carrinho</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+   <button class="btn-voltar" onclick="window.location.href='/'">⬅️ Voltar</button>
+
+    <div class="container">
+        <h1>Campo Minado: Carrinho</h1>
+        
+        <!-- Painel de Informações em Tempo Real -->
+        <div class="painel-info">
+            <p>⏱️ Tempo: <span id="tempo">0</span>s</p>
+            <p>🛡️ Campo de Força: <span id="escudo">0</span></p>
+            <p>⚠️ Avarias: <span id="avarias">0</span> / <span id="limite-avarias">3</span></p>
+            <p>🧱 Tijolos Percorridos: <span id="tijolos">0</span></p>
+        </div>
+
+        <div class="controles-dica">
+            <p>Use as <strong>Setas do Teclado</strong> para mover o carrinho.</p>
+            <p>Segure a tecla <strong>ESPAÇO</strong> enquanto anda para <strong>PULAR</strong> o tijolo!</p>
+        </div>
+
+        <!-- Tabuleiro Principal -->
+        <div id="grid-tabuleiro" class="tabuleiro"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
