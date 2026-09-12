@@ -108,13 +108,13 @@ def mover():
         carro.mover_para(destino_x, destino_y)
         conteudo_celula = tabuleiro.matriz.obter(destino_x, destino_y)
 
-        if not eh_pulo:
-            if conteudo_celula == 1:
-                carro.receber_dano()
-                tabuleiro.matriz.definir(destino_x, destino_y, 0)
-            elif conteudo_celula == 2:
-                carro.recarregar_energia()
-                tabuleiro.matriz.definir(destino_x, destino_y, 0)
+        # Processa o impacto ou coleta SEMPRE na célula onde o carro aterrissou
+        if conteudo_celula == 1:
+            carro.receber_dano()
+            tabuleiro.matriz.definir(destino_x, destino_y, 0) # Remove a bomba após o impacto
+        elif conteudo_celula == 2:
+            carro.recarregar_energia()
+            tabuleiro.matriz.definir(destino_x, destino_y, 0) # Remove a energia após a coleta
 
         # Dispara a revelação do mapa
         tabuleiro.revelar_celula(destino_x, destino_y)
