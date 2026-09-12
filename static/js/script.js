@@ -1,13 +1,18 @@
 let estadoCarro = { x: 0, y: 0 };
 let ehPulo = false;
-const posicoesBandeiras = new Set();
+
+// Array clássico para guardar as chaves das posições com bandeira.
+// A capacidade é o número máximo de células do tabuleiro (o jogo é NxN,
+// e o maior N suportado pela tela de configuração é 16).
+const CAPACIDADE_MAXIMA_BANDEIRAS = 16 * 16;
+const posicoesBandeiras = new ArrayClassico(CAPACIDADE_MAXIMA_BANDEIRAS);
 
 window.addEventListener('keydown', (e) => { // Adiciona um listener para eventos de tecla pressionada
     if (e.code === 'Space') {
         ehPulo = true;
         destacarCarroPulo(true);
     }
-    
+
     if (['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'].includes(e.code)) {
         e.preventDefault();
         calcularEEnviarMovimento(e.code);
@@ -99,25 +104,25 @@ function carregarEstadoJogo() {
                         celula.classList.add('oculta');
                         const chave = `${i},${j}`;
 
-                        // Renderiza a bandeira se a casa estiver salva no Set
-                        if (posicoesBandeiras.has(chave)) {
+                        // Renderiza a bandeira se a casa estiver salva no ArrayClassico
+                        if (posicoesBandeiras.contem(chave)) {
                             celula.classList.add('com-bandeira');
                             celula.innerText = '🚩';
                         }
 
                         // Clique com botão esquerdo para colocar/remover bandeira
                         celula.addEventListener('click', () => {
-                            if (posicoesBandeiras.has(chave)) {
-                                posicoesBandeiras.delete(chave);
+                            if (posicoesBandeiras.contem(chave)) {
+                                posicoesBandeiras.remover(chave);
                             } else {
-                                posicoesBandeiras.add(chave);
+                                posicoesBandeiras.adicionar(chave);
                             }
                             carregarEstadoJogo(); // Atualiza a tela imediatamente
                         });
 
                     } else {
                         celula.classList.add('revelada');
-                        
+
                         if (dados.matriz[i][j] === 3) {
                             celula.classList.add('inicio');
                             celula.innerText = '🚩';

@@ -5,12 +5,13 @@
     <title>Campo Minado - Carrinho</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
+
 <body>
    <button class="btn-voltar" onclick="window.location.href='/'">⬅️ Voltar</button>
 
     <div class="container">
         <h1>Campo Minado: Carrinho</h1>
-        
+
         <!-- Painel de Informações em Tempo Real -->
         <div class="painel-info">
             <p>⏱️ Tempo: <span id="tempo">0</span>s</p>
@@ -28,6 +29,9 @@
         <div id="grid-tabuleiro" class="tabuleiro"></div>
     </div>
 
+    <!-- Ordem importa: ArrayClassico primeiro, script.js depois -->
+    <script src="{{ url_for('static', filename='js/array_classico.js') }}"></script>
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 </body>
+
 </html>
