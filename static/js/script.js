@@ -1,7 +1,7 @@
 let estadoCarro = { x: 0, y: 0 };
 let ehPulo = false;
 
-window.addEventListener('keydown', (e) => {
+window.addEventListener('keydown', (e) => { // Adiciona um listener para eventos de tecla pressionada
     if (e.code === 'Space') {
         ehPulo = true;
         destacarCarroPulo(true);
@@ -11,6 +11,7 @@ window.addEventListener('keydown', (e) => {
         e.preventDefault();
         calcularEEnviarMovimento(e.code);
     }
+
 });
 
 window.addEventListener('keyup', (e) => {
@@ -25,7 +26,7 @@ function destacarCarroPulo(ativo) {
     if (celulaCarro) {
         if (ativo) {
             celulaCarro.classList.add('pulando');
-            celulaCarro.innerText = '🚀';
+            celulaCarro.innerText = '🏎️'
         } else {
             celulaCarro.classList.remove('pulando');
             celulaCarro.innerText = '🏎️';
@@ -34,13 +35,18 @@ function destacarCarroPulo(ativo) {
 }
 
 function calcularEEnviarMovimento(tecla) {
-    let novoX = estadoCarro.x;
-    let novoY = estadoCarro.y;
+    let dx = 0;
+    let dy = 0;
 
-    if (tecla === 'ArrowUp') novoX -= 1;
-    if (tecla === 'ArrowDown') novoX += 1;
-    if (tecla === 'ArrowLeft') novoY -= 1;
-    if (tecla === 'ArrowRight') novoY += 1;
+    if (tecla === 'ArrowUp') dx = -1;
+    if (tecla === 'ArrowDown') dx = 1;
+    if (tecla === 'ArrowLeft') dy = -1;
+    if (tecla === 'ArrowRight') dy = 1;
+
+    // Se estiver pulando, avança 2 casas no vetor; caso contrário, avança 1
+    const passo = ehPulo ? 2 : 1;
+    let novoX = estadoCarro.x + (dx * passo);
+    let novoY = estadoCarro.y + (dy * passo);
 
     fetch('/mover', {
         method: 'POST',
@@ -54,8 +60,7 @@ function calcularEEnviarMovimento(tecla) {
         } else {
             carregarEstadoJogo();
         }
-    })
-    .catch(err => console.error("Erro na movimentação:", err));
+    });
 }
 
 function carregarEstadoJogo() {
@@ -88,7 +93,7 @@ function carregarEstadoJogo() {
 
                     if (i === dados.carro.x && j === dados.carro.y) {
                         celula.classList.add('carro');
-                        celula.innerText = ehPulo ? '🚀' : '🏎️';
+                        celula.innerText = ehPulo ? '🏎️' : '🏎️';
                     } else if (!estaRevelada) {
                         celula.classList.add('oculta');
                     } else {
