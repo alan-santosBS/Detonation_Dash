@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, jsonify, session, redirect, url_for
 from models import Carro, Tabuleiro
+from models.matriz_classica import MatrizClassica
 import time
 
 app = Flask(__name__)
@@ -22,7 +23,7 @@ def selecionar_tamanho():
     return render_template('selecionar_tamanho.html')
 
 @app.route('/iniciar_jogo', methods=['POST'])
-def iniciar_jogo(): # Recebe os dados do formulário, cria o tabuleiro e o carro, e registra o tempo inicial da partida
+def iniciar_jogo():
     dados = request.get_json()
     tamanho = int(dados.get('tamanho', 10))
     qtd_bombas = int(dados.get('bombas', 5))
@@ -32,7 +33,7 @@ def iniciar_jogo(): # Recebe os dados do formulário, cria o tabuleiro e o carro
     partida['tabuleiro'] = Tabuleiro(tamanho, qtd_bombas, qtd_energias)
     partida['carro'] = Carro(pos_x=0, pos_y=0, limite_avarias=3)
     partida['tempo_inicio'] = time.time()
-    
+
     return jsonify({'status': 'ok', 'redirect': url_for('jogo')})
 
 @app.route('/jogo')
@@ -41,20 +42,39 @@ def jogo():
         return redirect(url_for('selecionar_tamanho'))
     return render_template('jogo.html')
 
-@app.route('/obter_estado', methods=['GET']) # Retorna o estado atual do jogo, incluindo a matriz do tabuleiro, a posição do carro, o tempo decorrido e outras informações relevantes
+@app.route('/obter_estado', methods=['GET'])
 def obter_estado():
     carro = partida['carro']
     tabuleiro = partida['tabuleiro']
     tempo_decorrido = int(time.time() - partida['tempo_inicio'])
 
-    # Monta a matriz de bombas vizinhas
-    vizinhanca = [[tabuleiro.contar_bombas_vizinhas(i, j) for j in range(tabuleiro.tamanho)] for i in range(tabuleiro.tamanho)]
+    # Monta a matriz de bombas vizinhas usando MatrizClassica
+    vizinhanca = MatrizClassica(tabuleiro.tamanho, tabuleiro.tamanho, 0)
+    for i in range(tabuleiro.tamanho):
+        for j in range(tabuleiro.tamanho):
+            vizinhanca.definir(i, j, tabuleiro.contar_bombas_vizinhas(i, j))
+
+    # Converte a matriz do tabuleiro para lista de listas SÓ para o JSON
+    matriz_json = []
+    for i in range(tabuleiro.tamanho):
+        linha = []
+        for j in range(tabuleiro.tamanho):
+            linha.append(tabuleiro.matriz.obter(i, j))
+        matriz_json.append(linha)
+
+    # Converte a vizinhança para lista de listas SÓ para o JSON
+    vizinhanca_json = []
+    for i in range(tabuleiro.tamanho):
+        linha = []
+        for j in range(tabuleiro.tamanho):
+            linha.append(vizinhanca.obter(i, j))
+        vizinhanca_json.append(linha)
 
     return jsonify({
         'tamanho': tabuleiro.tamanho,
-        'matriz': tabuleiro.matriz,
-        'revelada': tabuleiro.revelada,
-        'vizinhanca': vizinhanca,
+        'matriz': matriz_json,
+        'revelada': tabuleiro.revelada,  # ainda é list, muda no 3.2
+        'vizinhanca': vizinhanca_json,
         'carro': {
             'x': carro.x,
             'y': carro.y,
@@ -66,7 +86,7 @@ def obter_estado():
         'tempo_decorrido': tempo_decorrido
     })
 
-@app.route('/mover', methods=['POST']) # Recebe os dados de movimento do carro e atualiza sua posição
+@app.route('/mover', methods=['POST'])
 def mover():
     dados = request.get_json()
     destino_x, destino_y = dados.get('x'), dados.get('y')
@@ -76,17 +96,17 @@ def mover():
     tabuleiro = partida['tabuleiro']
 
     # Valida movimento dentro dos limites da matriz
-    if 0 <= destino_x < tabuleiro.tamanho and 0 <= destino_y < tabuleiro.tamanho: # 
+    if 0 <= destino_x < tabuleiro.tamanho and 0 <= destino_y < tabuleiro.tamanho:
         carro.mover_para(destino_x, destino_y)
-        conteudo_celula = tabuleiro.matriz[destino_x][destino_y]
+        conteudo_celula = tabuleiro.matriz.obter(destino_x, destino_y)
 
         if not eh_pulo:
             if conteudo_celula == 1:
                 carro.receber_dano()
-                tabuleiro.matriz[destino_x][destino_y] = 0 # remove a bomba após a explosão
+                tabuleiro.matriz.definir(destino_x, destino_y, 0)
             elif conteudo_celula == 2:
                 carro.recarregar_energia()
-                tabuleiro.matriz[destino_x][destino_y] = 0
+                tabuleiro.matriz.definir(destino_x, destino_y, 0)
 
         # Dispara a revelação do mapa
         tabuleiro.revelar_celula(destino_x, destino_y)
@@ -98,7 +118,7 @@ def mover():
 
     return jsonify({'vitoria': vitoria, 'derrota': derrota})
 
-@app.route('/estatisticas') # mostra as estatísticas finais da partida, incluindo tempo total, número de bombas explodidas, tijolos percorridos e resistência restante do carro
+@app.route('/estatisticas')
 def estatisticas():
     carro = partida['carro']
     tempo_total = int(partida['tempo_fim'] - partida['tempo_inicio']) if partida['tempo_fim'] else 0
@@ -112,7 +132,6 @@ def estatisticas():
         'resistência_restante': (carro.limite_avarias - carro.avarias_atuais) if carro else 0
     }
     return render_template('estatisticas.html', stats=dados_finais)
-
 
 
 if __name__ == '__main__':
