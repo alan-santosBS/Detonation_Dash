@@ -61,16 +61,17 @@ class Tabuleiro:
                         self.revelar_celula(x + dx, y + dy)
 
     def tem_caminho_valido(self):
-        visitado = [[0 for _ in range(self.tamanho)] for _ in range(self.tamanho)]
+        # Matriz clássica de visitados, usada apenas para o flood fill
+        visitado = MatrizClassica(self.tamanho, self.tamanho, 0)
 
         def flood_fill(x, y):
             if x < 0 or x >= self.tamanho or y < 0 or y >= self.tamanho:
                 return False
-            if self.matriz.obter(x, y) == 1 or visitado[x][y] == 1:
+            if self.matriz.obter(x, y) == 1 or visitado.obter(x, y) == 1:
                 return False
             if self.matriz.obter(x, y) == 4:
                 return True
-            visitado[x][y] = 1
+            visitado.definir(x, y, 1)
             return (
                 flood_fill(x - 1, y)
                 or flood_fill(x + 1, y)
