@@ -70,10 +70,18 @@ def obter_estado():
             linha.append(vizinhanca.obter(i, j))
         vizinhanca_json.append(linha)
 
+    # Converte a matriz de reveladas para lista de listas SÓ para o JSON
+    revelada_json = []
+    for i in range(tabuleiro.tamanho):
+        linha = []
+        for j in range(tabuleiro.tamanho):
+            linha.append(tabuleiro.revelada.obter(i, j))
+        revelada_json.append(linha)
+
     return jsonify({
         'tamanho': tabuleiro.tamanho,
         'matriz': matriz_json,
-        'revelada': tabuleiro.revelada,  # ainda é list, muda no 3.2
+        'revelada': revelada_json,
         'vizinhanca': vizinhanca_json,
         'carro': {
             'x': carro.x,

@@ -20,8 +20,7 @@ class Tabuleiro:
             valido = self.tem_caminho_valido()
 
         # Matriz estática para controle de visibilidade (0 = oculta, 1 = revelada)
-        # Ainda é uma lista por enquanto; será refatorada no sub-passo 3.2
-        self.revelada = [[0 for _ in range(tamanho)] for _ in range(tamanho)]
+        self.revelada = MatrizClassica(tamanho, tamanho, 0)
         self.revelar_celula(0, 0)  # Revela a posição inicial
 
     def _posicionar_elementos(self, tipo_elemento, quantidade):
@@ -49,10 +48,10 @@ class Tabuleiro:
         # Validação de limites
         if x < 0 or x >= self.tamanho or y < 0 or y >= self.tamanho:
             return
-        if self.revelada[x][y] == 1:
+        if self.revelada.obter(x, y) == 1:
             return
 
-        self.revelada[x][y] = 1
+        self.revelada.definir(x, y, 1)
 
         # RECURSÃO (Flood Fill): se o tijolo for vazio e não tiver bombas ao redor, revela vizinhos
         if self.matriz.obter(x, y) == 0 and self.contar_bombas_vizinhas(x, y) == 0:
