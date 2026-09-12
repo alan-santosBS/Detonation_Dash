@@ -1,5 +1,6 @@
 let estadoCarro = { x: 0, y: 0 };
 let ehPulo = false;
+const posicoesBandeiras = new Set();
 
 window.addEventListener('keydown', (e) => { // Adiciona um listener para eventos de tecla pressionada
     if (e.code === 'Space') {
@@ -93,9 +94,27 @@ function carregarEstadoJogo() {
 
                     if (i === dados.carro.x && j === dados.carro.y) {
                         celula.classList.add('carro');
-                        celula.innerText = ehPulo ? '🏎️' : '🏎️';
+                        celula.innerText = '🏎️';
                     } else if (!estaRevelada) {
                         celula.classList.add('oculta');
+                        const chave = `${i},${j}`;
+
+                        // Renderiza a bandeira se a casa estiver salva no Set
+                        if (posicoesBandeiras.has(chave)) {
+                            celula.classList.add('com-bandeira');
+                            celula.innerText = '🚩';
+                        }
+
+                        // Clique com botão esquerdo para colocar/remover bandeira
+                        celula.addEventListener('click', () => {
+                            if (posicoesBandeiras.has(chave)) {
+                                posicoesBandeiras.delete(chave);
+                            } else {
+                                posicoesBandeiras.add(chave);
+                            }
+                            carregarEstadoJogo(); // Atualiza a tela imediatamente
+                        });
+
                     } else {
                         celula.classList.add('revelada');
                         
