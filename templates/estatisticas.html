@@ -1,22 +1,95 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
-    <title>Resultado da Partida</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detonation Dash - Resultado</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:ital,wght@1,800;1,900&family=Teko:wght@700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-<body>
-    <div class="container">
-        <h1>{% if stats.sucesso %}🏆 Desafio Concluído!{% else %}💥 Veículo Destruído!{% endif %}</h1>
-        
-        <div class="painel-info" style="flex-direction: column; text-align: left; gap: 10px;">
-            <p>⏱️ Tempo Transcorrido: <strong>{{ stats.tempo_total }}s</strong></p>
-            <p>💥 Bombas Explodidas: <strong>{{ stats.bombas_explodidas }}</strong></p>
-            <p>🧱 Tijolos Percorridos: <strong>{{ stats.tijolos_percorridos }}</strong></p>
-            <p>🛡️ Resistência Restante: <strong>{{ stats.resistência_restante }}</strong></p>
+
+<body class="body-estatisticas">
+
+    <!-- Fundo com imagem + overlay escuro -->
+    <div class="estatisticas-background"></div>
+
+    <!-- Botão Voltar -->
+    <a href="/" class="btn-voltar-neon btn-iniciar">
+        <span class="btn-text-voltar">⬅ MENU</span>
+    </a>
+
+    <div class="estatisticas-container">
+
+        <!-- Header: título muda conforme vitória/derrota -->
+        <header class="estatisticas-header">
+            {% if stats.sucesso %}
+                <h1 class="resultado-titulo vitoria">
+                    <span class="resultado-linha1">🏆 DESAFIO</span>
+                    <span class="resultado-linha2">CONCLUÍDO</span>
+                </h1>
+                <p class="resultado-subtitulo">Você cruzou a linha de chegada!</p>
+            {% else %}
+                <h1 class="resultado-titulo derrota">
+                    <span class="resultado-linha1">💥 VEÍCULO</span>
+                    <span class="resultado-linha2">DESTRUÍDO</span>
+                </h1>
+                <p class="resultado-subtitulo">As bombas venceram essa corrida...</p>
+            {% endif %}
+        </header>
+
+        <!-- Grid de estatísticas -->
+        <section class="stats-grid">
+
+            <div class="stat-card">
+                <div class="stat-icon">⏱️</div>
+                <div class="stat-info">
+                    <span class="stat-label">Tempo Total</span>
+                    <span class="stat-value">{{ stats.tempo_total }}s</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">💥</div>
+                <div class="stat-info">
+                    <span class="stat-label">Bombas Explodidas</span>
+                    <span class="stat-value">{{ stats.bombas_explodidas }}</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🧱</div>
+                <div class="stat-info">
+                    <span class="stat-label">Tijolos Percorridos</span>
+                    <span class="stat-value">{{ stats.tijolos_percorridos }}</span>
+                </div>
+            </div>
+
+            <div class="stat-card">
+                <div class="stat-icon">🛡️</div>
+                <div class="stat-info">
+                    <span class="stat-label">Resistência Restante</span>
+                    <span class="stat-value">{{ stats.resistência_restante }}</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Botões de ação -->
+        <div class="estatisticas-actions">
+            <a href="/selecionar_tamanho" class="btn-acao btn-jogar-novamente">
+                <span>🔄 JOGAR NOVAMENTE</span>
+            </a>
+            <a href="/" class="btn-acao btn-voltar-menu">
+                <span>🏠 VOLTAR AO MENU</span>
+            </a>
         </div>
 
-        <a href="/selecionar_tamanho" style="color: #89b4fa; text-decoration: none; font-weight: bold;">🔄 Jogar Novamente</a>
     </div>
 </body>
+
 </html>

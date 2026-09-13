@@ -935,3 +935,202 @@ body.body-sobre {
         0 0 10px #ff3c00,
         0 0 20px rgba(255, 60, 0, 0.7);
 }
+
+/* ==========================================================================
+   TELA ESTATÍSTICAS (DETONATION DASH)
+   ========================================================================== */
+
+body.body-estatisticas {
+    display: block;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: #050508;
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+}
+
+/* Fundo com imagem + overlay escuro */
+.estatisticas-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(rgba(5, 5, 8, 0.8), rgba(5, 5, 8, 0.9)),
+        url('../images/f1_art.jpeg') center center / cover no-repeat;
+    z-index: 0;
+}
+
+/* Container principal */
+.estatisticas-container {
+    position: relative;
+    z-index: 1;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 80px 30px 60px;
+}
+
+/* Header */
+.estatisticas-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.resultado-titulo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 12px;
+    transform: skewX(-8deg);
+    line-height: 0.9;
+}
+
+.resultado-titulo .resultado-linha1 {
+    font-size: 2.4rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #ffaa00;
+}
+
+.resultado-titulo .resultado-linha2 {
+    font-size: 3.4rem;
+    font-weight: 900;
+    letter-spacing: 4px;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #ff3300;
+}
+
+.resultado-titulo.vitoria .resultado-linha2 {
+    color: #00ff66;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #00aa44, 0 0 20px rgba(0, 255, 102, 0.6);
+}
+
+.resultado-titulo.derrota .resultado-linha2 {
+    color: #ff2a2a;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #aa0000, 0 0 20px rgba(255, 42, 42, 0.6);
+}
+
+.resultado-subtitulo {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.5rem;
+    color: #bbdefb;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* Grid de estatísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-bottom: 35px;
+}
+
+@media (max-width: 640px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.stat-card {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: rgba(20, 20, 30, 0.85);
+    border: 2px solid rgba(255, 204, 0, 0.5);
+    border-radius: 14px;
+    padding: 20px 24px;
+    box-shadow: 0 0 20px rgba(255, 204, 0, 0.15);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    transform: skewX(-3deg);
+}
+
+.stat-card:hover {
+    transform: skewX(-3deg) translateY(-4px);
+    border-color: #ffcc00;
+    box-shadow: 0 0 30px rgba(255, 204, 0, 0.45);
+}
+
+.stat-icon {
+    font-size: 2.2rem;
+    flex-shrink: 0;
+}
+
+.stat-info {
+    display: flex;
+    flex-direction: column;
+    transform: skewX(3deg);
+}
+
+.stat-label {
+    font-family: 'Teko', sans-serif;
+    font-size: 1rem;
+    color: #bbdefb;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #ffcc00;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 0 #000;
+}
+
+/* Botões de ação */
+.estatisticas-actions {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.btn-acao {
+    display: inline-block;
+    padding: 14px 32px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transform: skewX(-8deg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-acao span {
+    display: inline-block;
+    transform: skewX(8deg);
+}
+
+/* Botão Jogar Novamente (verde neon) */
+.btn-jogar-novamente {
+    background: linear-gradient(180deg, #0d3d14 0%, #03170a 100%);
+    border: 3px solid #00ff66;
+    color: #ffffff;
+    box-shadow: 0 0 18px rgba(0, 255, 102, 0.45);
+}
+
+.btn-jogar-novamente:hover {
+    transform: skewX(-8deg) translateY(-4px);
+    box-shadow: 0 0 30px rgba(0, 255, 102, 0.8);
+}
+
+/* Botão Voltar ao Menu (azul neon) */
+.btn-voltar-menu {
+    background: linear-gradient(180deg, #091a30 0%, #030a14 100%);
+    border: 3px solid #0088ff;
+    color: #ffffff;
+    box-shadow: 0 0 18px rgba(0, 136, 255, 0.45);
+}
+
+.btn-voltar-menu:hover {
+    transform: skewX(-8deg) translateY(-4px);
+    box-shadow: 0 0 30px rgba(0, 136, 255, 0.8);
+}
