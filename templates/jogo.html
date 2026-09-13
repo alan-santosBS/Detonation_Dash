@@ -8,26 +8,64 @@
 </head>
 
 <body>
-   <button class="btn-voltar" onclick="window.location.href='/'">⬅️ Voltar</button>
-
-    <div class="container">
-        <h1>Campo Minado: Carrinho</h1>
-
-        <!-- Painel de Informações em Tempo Real -->
-        <div class="painel-info">
-            <p>⏱️ Tempo: <span id="tempo">0</span>s</p>
-            <p>🛡️ Campo de Força: <span id="escudo">0</span></p>
-            <p>⚠️ Avarias: <span id="avarias">0</span> / <span id="limite-avarias">3</span></p>
-            <p>🧱 Tijolos Percorridos: <span id="tijolos">0</span></p>
+    <!-- Imagem de fundo com overlay escuro (feito via CSS) -->
+    <div class="sobre-background"></div>
+    
+    <a href="/" class="card-btn btn-iniciar btn-voltar-neon">
+        <div class="card-body">
+            <span class="btn-text-voltar">⬅ VOLTAR</span>
         </div>
+    </a>
+    <div class="layout-jogo">
+        <!-- Menu Lateral Esquerdo (Dashboard) -->
+        <aside class="painel-lateral">
+            <h2>Painel do Carro</h2>
 
-        <div class="controles-dica">
-            <p>Use as <strong>Setas do Teclado</strong> para mover o carrinho.</p>
-            <p>Segure a tecla <strong>ESPAÇO</strong> enquanto anda para <strong>PULAR</strong> o tijolo!</p>
-        </div>
+            <div class="card-status">
+                <span class="icone">⏱️</span>
+                <div class="info">
+                    <span class="label">Tempo</span>
+                    <span class="valor"><span id="tempo">0</span>s</span>
+                </div>
+            </div>
+
+            <div class="card-status">
+                <span class="icone">🛡️</span>
+                <div class="info">
+                    <span class="label">Campo de Força</span>
+                    <span class="valor" id="escudo">0</span>
+                </div>
+            </div>
+
+            <div class="card-status">
+                <span class="icone">⚠️</span>
+                <div class="info">
+                    <span class="label">Avarias</span>
+                    <span class="valor"><span id="avarias">0</span> / <span id="limite-avarias">3</span></span>
+                </div>
+            </div>
+
+            <div class="card-status">
+                <span class="icone">🧱</span>
+                <div class="info">
+                    <span class="label">Tijolos Percorridos</span>
+                    <span class="valor" id="tijolos">0</span>
+                </div>
+            </div>
+
+            <!-- Instruções Integradas -->
+            <div class="card-instrucoes">
+                <h3>Controles</h3>
+                <p><strong>Setas:</strong> Movimentar</p>
+                <p><strong>Espaço:</strong> Segure para PULAR</p>
+            </div>
+        </aside>
 
         <!-- Tabuleiro Principal -->
-        <div id="grid-tabuleiro" class="tabuleiro"></div>
+        <main>
+            <h1 class="titulo-jogo">Detonation Dash</h1>
+            <div id="grid-tabuleiro" class="tabuleiro"></div>
+        </main>
     </div>
 
     <!-- Ordem importa: ArrayClassico primeiro, script.js depois -->

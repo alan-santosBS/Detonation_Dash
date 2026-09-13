@@ -11,6 +11,8 @@ body {
     align-items: center;
     min-height: 100vh;
     margin: 0;
+    position: relative;
+    z-index: 0;
 }
 
 .btn-voltar {
@@ -249,7 +251,11 @@ body.body-inicio {
 }
 
 .card-btn:hover {
-    transform: skewX(-8deg) translateX(8deg);
+    transform: skewX(-8deg) translateX(8px) translateY(-10px) scale(1.02);
+}
+
+.card-btn:active {
+    transform: skewX(-8deg) translateX(8px) translateY(-3px) scale(0.98);
 }
 
 /* Cartão INICIAR (Vermelho Neon) */
@@ -441,6 +447,7 @@ body.body-sobre {
         linear-gradient(rgba(5, 5, 8, 0.75), rgba(5, 5, 8, 0.85)),
         url('../images/f1_art.jpeg') center center / cover no-repeat;
     z-index: 0;
+    inset: 0;
 }
 
 /* Container principal */
@@ -650,4 +657,281 @@ body.body-sobre {
     text-shadow: 2px 2px 0 #000;
     transform: skewX(8deg);
     display: inline-block;
+}
+
+
+/* ==========================================================================
+   TELA SELECIONAR TAMANHO (DETONATION DASH)
+   ========================================================================== */
+
+/* Card Principal Centrado com Glassmorphism */
+.card-config {
+    width: 100%;
+    max-width: 440px;
+    margin: 40px auto;
+    padding: 32px;
+    background: rgba(15, 18, 28, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 60, 0, 0.4);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 60, 0, 0.15);
+    color: #ffffff;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.card-config h2 {
+    margin: 0 0 6px 0;
+    font-size: 1.6rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.subtitulo {
+    margin: 0 0 20px 0;
+    font-size: 0.88rem;
+    color: #a0a5b5;
+    text-align: center;
+}
+
+/* Presets de Dificuldade */
+.preset-group {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 24px;
+}
+
+.btn-preset {
+    flex: 1;
+    padding: 8px 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #ccc;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.btn-preset.active, .btn-preset:hover {
+    background: rgba(255, 60, 0, 0.2);
+    border-color: #ff3c00;
+    color: #fff;
+}
+
+/* Organização dos Campos (Label em cima, Input embaixo) */
+.campo-grupo {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+    text-align: left;
+}
+
+.campo-grupo label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #d1d5db;
+}
+
+.campo-grupo input {
+    width: 100%;
+    padding: 12px 14px;
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campo-grupo input:focus {
+    border-color: #ff3c00;
+    box-shadow: 0 0 10px rgba(255, 60, 0, 0.4);
+}
+
+/* Botão de Ação Principal */
+.btn-gerar {
+    width: 100%;
+    padding: 14px;
+    margin-top: 10px;
+    background: linear-gradient(135deg, #ff3c00, #ff7700);
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 60, 0, 0.4);
+    transition: transform 0.15s, box-shadow 0.15s;
+}
+
+.btn-gerar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(255, 60, 0, 0.7);
+}
+
+/* Estado Normal do Botão */
+.btn-preset {
+    flex: 1;
+    padding: 10px 6px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #a0a5b5;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+
+.btn-preset:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+}
+
+/* Estado SELECIONADO (Ativo) com brilho Laranja Neon */
+.btn-preset.ativo {
+    background: linear-gradient(135deg, #ff3c00, #ff7700);
+    border-color: #ff7700;
+    color: #ffffff;
+    font-weight: 800;
+    box-shadow: 0 0 15px rgba(255, 60, 0, 0.6);
+    transform: scale(1.02);
+}
+
+
+/* ==========================================================================
+   TELA jogo (DETONATION DASH)
+   ========================================================================== */
+
+/* Container Flex Centralizado */
+.layout-jogo {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center; /* Centraliza o tabuleiro no meio exato da tela */
+    align-items: center;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+/* Painel Lateral Esquerdo */
+.painel-lateral {
+    position: absolute;
+    left: 24px;       /* Distância da borda esquerda */
+    top: 190px;        /* Distância do topo (ajuste se o botão VOLTAR for mais alto) */
+    width: 260px;
+    background: rgba(15, 18, 28, 0.85);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 60, 0, 0.35);
+    border-radius: 16px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7), 0 0 20px rgba(255, 60, 0, 0.15);
+    color: #ffffff;
+    z-index: 10;
+}
+
+.painel-lateral h2 {
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: #ff5500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin: 0 0 6px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 8px;
+}
+
+/* Cards de Status Individuais */
+.card-status {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 10px 14px;
+    border-radius: 10px;
+    transition: border-color 0.2s;
+}
+
+.card-status:hover {
+    border-color: rgba(255, 85, 0, 0.4);
+}
+
+.card-status .icone {
+    font-size: 1.4rem;
+}
+
+.card-status .info {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-status .label {
+    font-size: 0.72rem;
+    color: #a0a5b5;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+.card-status .valor {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+/* Card de Instruções */
+.card-instrucoes {
+    margin-top: 10px;
+    background: rgba(0, 0, 0, 0.35);
+    border-left: 3px solid #ff5500;
+    padding: 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    color: #ccc;
+}
+
+.card-instrucoes h3 {
+    margin: 0 0 6px 0;
+    font-size: 0.85rem;
+    color: #ff7700;
+    text-transform: uppercase;
+}
+
+.card-instrucoes p {
+    margin: 4px 0;
+}
+
+/* Área Direita (Grid) */
+.area-tabuleiro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.titulo-jogo {
+    margin: 0 0 16px;
+    color: #eeeeee;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2rem;
+    font-style: italic;
+    font-weight: 900;
+    letter-spacing: 2px;
+    text-align: center;
+    text-transform: uppercase;
+   text-shadow:
+        3px 3px 0 #000000,
+        0 0 10px #ff3c00,
+        0 0 20px rgba(255, 60, 0, 0.7);
 }
