@@ -1,16 +1,104 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
-    <title>Detonation_Dash</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detonation Dash</title>
+
+    <!-- Fontes do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:ital,wght@1,800;1,900&family=Teko:wght@700&display=swap" rel="stylesheet">
+
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
 </head>
-<body>
-    <div class="container">
-        <h1>Detonation Dash</h1>
-        <p>Evite as bombas, ative escudos e chegue ao destino final!</p>
-        <br><br>
-        <a href="/selecionar_tamanho" style="background: #89b4fa; color: #1e1e2e; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Iniciar Desafio</a>
+
+<body class="body-inicio">
+    <div class="screen-layout">
+
+        <!-- Lado Esquerdo: Painel de Menu -->
+        <aside class="left-panel">
+            <!-- Logo Detonation Dash -->
+            <header class="logo-box">
+                <div class="logo-text">
+                    <span class="detonation">DETONATION</span>
+                    <span class="dash">DASH <span class="flag">🏁🏁</span></span>
+                </div>
+            </header>
+
+            <!-- Menu de Botões -->
+            <nav class="menu-container">
+                <!-- Botão INICIAR -->
+                <a href="{{ url_for('selecionar_tamanho') }}" class="card-btn btn-iniciar">
+                    <div class="card-header-lights">
+                        <span class="light green"></span>
+                        <span class="light red"></span>
+                    </div>
+                    <div class="card-body">
+                        <!-- Volante estilizado em SVG -->
+                        <div class="wheel-icon">
+                            <svg viewBox="0 0 100 100" class="svg-wheel">
+                                <circle cx="50" cy="50" r="42" stroke="#ffcc00" stroke-width="8" fill="none"/>
+                                <rect x="25" y="42" width="50" height="16" fill="#ffcc00" rx="3"/>
+                                <circle cx="50" cy="50" r="14" fill="#111"/>
+                                <circle cx="50" cy="50" r="8" fill="#ff2a2a"/>
+                            </svg>
+                        </div>
+                        <span class="btn-text">INICIAR</span>
+                    </div>
+                    <div class="card-footer-fuel">
+                        <svg class="fuel-icon" viewBox="0 0 24 24" width="18" height="18" fill="#ffaa00">
+                            <path d="M19 5h-2V3H7v2H5c-1.1 0-2 .9-2 2v1c0 2.55 1.92 4.63 4.39 4.94A5.01 5.01 0 0 0 11 17.9v2.1H8v2h8v-2h-3v-2.1c2.25-.41 4-2.38 4-4.9v-1c0-1.1-.9-2-2-2zm-12 5c-1.1 0-2-.9-2-2V7h2v3zm12 0h-2V7h2v3z"/>
+                        </svg>
+                        <div class="fuel-bar">
+                            <span class="bar fill"></span>
+                            <span class="bar fill"></span>
+                            <span class="bar fill"></span>
+                            <span class="bar fill"></span>
+                            <span class="bar fill"></span>
+                            <span class="bar"></span>
+                        </div>
+                    </div>
+                </a>
+
+                <!-- Botão SOBRE -->
+                <a href="{{ url_for('sobre') }}" class="card-btn btn-sobre">
+                    <div class="card-header-wrench">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="#a0a5b5">
+                            <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.4-2.4c.4-.4.4-1 0-1.3z"/>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <!-- Pódio no formato exato da imagem -->
+                        <div class="podium-wrapper">
+                            <div class="podium-block p2">2</div>
+                            <div class="podium-block p1">1</div>
+                            <div class="podium-block p3">3</div>
+                        </div>
+                        <span class="btn-text">SOBRE</span>
+                    </div>
+                    <div class="card-footer-stats">
+                        <div class="stat-bars">
+                            <span class="b1"></span>
+                            <span class="b2"></span>
+                            <span class="b3"></span>
+                        </div>
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="#0088ff">
+                            <path d="M22.7 19l-9.1-9.1c.9-2.3.4-5-1.5-6.9-2-2-5-2.4-7.4-1.3L9 6 6 9 1.6 4.7C.4 7.1.9 10.1 2.9 12.1c1.9 1.9 4.6 2.4 6.9 1.5l9.1 9.1c.4.4 1 .4 1.4 0l2.4-2.4c.4-.4.4-1 0-1.3z"/>
+                        </svg>
+                    </div>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Lado Direito: Arte Full Screen -->
+        <main class="right-panel">
+            <!-- A imagem de fundo é carregada via CSS -->
+        </main>
+
     </div>
 </body>
+
 </html>

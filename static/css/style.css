@@ -1,3 +1,7 @@
+/* ==========================================================================
+   ESTILOS GERAIS DA APLICAÇÃO (TABULEIRO / PAINÉIS / CARDS)
+   ========================================================================== */
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background-color: #1e1e2e;
@@ -149,4 +153,501 @@ body {
     font-weight: bold;
     cursor: pointer;
     font-size: 15px;
+}
+
+/* ==========================================================================
+   REPLICAÇÃO EXATA - TELA INICIAL (DETONATION DASH)
+   ========================================================================== */
+
+body.body-inicio {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    overflow: hidden;
+    background-color: #050508;
+    font-family: 'Orbitron', sans-serif;
+}
+
+.screen-layout {
+    display: flex;
+    width: 100%;
+    height: 100vh;
+    position: relative;
+}
+
+/* Painel Esquerdo com Corte Inclinado */
+.left-panel {
+    position: relative;
+    width: 42%;
+    height: 100%;
+    background: rgba(13, 14, 18, 0.55);
+    backdrop-filter: blur(14px) saturate(120%);
+    -webkit-backdrop-filter: blur(14px) saturate(120%);
+    padding: 2.5rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    box-sizing: border-box;
+    z-index: 10;
+    clip-path: polygon(0 0, 100% 0, 82% 100%, 0% 100%);
+    border-right: 2px solid rgba(255, 204, 0, 0.25);
+    box-shadow:
+        15px 0 30px rgba(0, 0, 0, 0.7),
+        inset -2px 0 15px rgba(255, 204, 0, 0.08);
+}
+
+/* Logo DETONATION DASH */
+.logo-text {
+    display: flex;
+    flex-direction: column;
+    transform: skewX(-12deg);
+}
+
+.detonation {
+    font-size: 2.6rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 2px;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #ffaa00;
+}
+
+.dash {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #ffcc00;
+    line-height: 0.9;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #ff3300;
+}
+
+.flag {
+    font-size: 1.8rem;
+    font-style: normal;
+}
+
+/* Menu de Botões */
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 88%;
+    margin-bottom: 3rem;
+}
+
+/* Cartão de Botão Base */
+.card-btn {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 12px 18px;
+    border-radius: 14px;
+    text-decoration: none;
+    transform: skewX(-8deg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    position: relative;
+}
+
+.card-btn:hover {
+    transform: skewX(-8deg) translateX(8deg);
+}
+
+/* Cartão INICIAR (Vermelho Neon) */
+.btn-iniciar {
+    background: linear-gradient(180deg, #3d070a 0%, #170204 100%);
+    border: 3px solid #ff2a2a;
+    box-shadow: 0 0 18px rgba(255, 42, 42, 0.45);
+}
+
+.card-header-lights {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.light {
+    width: 13px;
+    height: 13px;
+    border-radius: 50%;
+    border: 1px solid #000;
+}
+
+.light.green { background: #00ff66; box-shadow: 0 0 10px #00ff66; }
+.light.red { background: #ff2a2a; box-shadow: 0 0 10px #ff2a2a; }
+
+.card-body {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin: 10px 0;
+}
+
+/* Volante estilo F1 */
+.wheel-icon {
+    width: 45px;
+    height: 45px;
+    background: #111;
+    border-radius: 50%;
+    border: 2px solid #ff2a2a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 3px;
+    box-shadow: 0 0 8px rgba(255, 42, 42, 0.5);
+}
+
+.svg-wheel {
+    width: 100%;
+    height: 100%;
+    transform: skewX(8deg);
+}
+
+.btn-text {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    color: #ffffff;
+    font-style: italic;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 #000;
+    transform: skewX(8deg);
+}
+
+.card-footer-fuel {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transform: skewX(8deg);
+}
+
+.fuel-bar {
+    display: flex;
+    gap: 4px;
+}
+
+.bar {
+    width: 14px;
+    height: 9px;
+    background: #2a2a35;
+    border-radius: 2px;
+    border: 1px solid #111;
+}
+
+.bar.fill {
+    background: #ffaa00;
+    box-shadow: 0 0 5px #ffaa00;
+}
+
+/* Cartão SOBRE (Azul Neon) */
+.btn-sobre {
+    background: linear-gradient(180deg, #091a30 0%, #030a14 100%);
+    border: 3px solid #0088ff;
+    box-shadow: 0 0 18px rgba(0, 136, 255, 0.45);
+}
+
+.card-header-wrench {
+    display: flex;
+    justify-content: center;
+    transform: skewX(8deg);
+}
+
+/* Pódio estilizado */
+.podium-wrapper {
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    background: #041224;
+    padding: 6px;
+    border-radius: 6px;
+    border: 1px solid #0055aa;
+    transform: skewX(8deg);
+}
+
+.podium-block {
+    font-size: 0.75rem;
+    font-weight: 900;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    border-radius: 2px 2px 0 0;
+}
+
+.p1 { background: #ffcc00; height: 26px; color: #000; }
+.p2 { background: #d0d0d0; height: 20px; color: #000; }
+.p3 { background: #cd7f32; height: 14px; }
+
+.card-footer-stats {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: skewX(8deg);
+}
+
+.stat-bars {
+    display: flex;
+    align-items: flex-end;
+    gap: 4px;
+}
+
+.stat-bars span {
+    width: 7px;
+    background: #0088ff;
+    border-radius: 1px;
+    box-shadow: 0 0 4px #0088ff;
+}
+
+.b1 { height: 8px; }
+.b2 { height: 14px; }
+.b3 { height: 20px; }
+
+/* Painel Direito (Arte) */
+.right-panel {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(90deg, rgba(13, 14, 18, 0.6) 0%, rgba(13, 14, 18, 0.15) 40%, rgba(13, 14, 18, 0) 100%),
+        url('../images/f1_art.jpeg') right center / cover no-repeat;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   TELA SOBRE (DETONATION DASH)
+   ========================================================================== */
+
+body.body-sobre {
+    display: block;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    overflow-x: hidden;
+    background-color: #050508;
+    font-family: 'Orbitron', sans-serif;
+    color: #ffffff;
+}
+
+/* Fundo com imagem + overlay escuro */
+.sobre-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background:
+        linear-gradient(rgba(5, 5, 8, 0.75), rgba(5, 5, 8, 0.85)),
+        url('../images/f1_art.jpeg') center center / cover no-repeat;
+    z-index: 0;
+}
+
+/* Container principal */
+.sobre-container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 30px 80px;
+}
+
+/* Header */
+.sobre-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.sobre-title {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 0 10px;
+    transform: skewX(-8deg);
+    line-height: 0.9;
+}
+
+.sobre-title .detonation {
+    font-size: 3rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 3px;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #ffaa00;
+}
+
+.sobre-title .dash {
+    font-size: 3.6rem;
+    font-weight: 900;
+    color: #ffcc00;
+    letter-spacing: 4px;
+    text-shadow: 3px 3px 0 #000, -2px -2px 0 #ff3300;
+}
+
+.sobre-subtitle {
+    font-family: 'Teko', sans-serif;
+    font-size: 1.5rem;
+    color: #bbdefb;
+    letter-spacing: 1px;
+    margin: 0;
+}
+
+/* Container dos devs */
+.devs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    margin-bottom: 40px;
+}
+
+.dev-link {
+    text-decoration: none;
+    display: block;
+    transform: skewX(-4deg);
+    transition: transform 0.2s ease;
+}
+
+.dev-link:hover {
+    transform: skewX(-4deg) translateX(8px);
+}
+
+.dev-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: rgba(20, 20, 30, 0.75);
+    border: 2px solid rgba(0, 136, 255, 0.5);
+    border-radius: 14px;
+    padding: 16px 22px;
+    box-shadow: 0 0 18px rgba(0, 136, 255, 0.25);
+    transition: box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.dev-link:hover .dev-card {
+    border-color: #0088ff;
+    box-shadow: 0 0 25px rgba(0, 136, 255, 0.6);
+}
+
+.dev-photo {
+    width: 65px;
+    height: 65px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+    border: 3px solid #ffcc00;
+    box-shadow: 0 0 12px rgba(255, 204, 0, 0.5);
+}
+
+.dev-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.dev-info {
+    text-align: left;
+    flex: 1;
+    transform: skewX(4deg);
+}
+
+.dev-name {
+    margin: 0;
+    font-size: 1.3rem;
+    font-weight: 900;
+    color: #ffffff;
+    letter-spacing: 1px;
+    text-shadow: 1px 1px 0 #000;
+}
+
+.dev-role {
+    margin: 4px 0 0;
+    font-family: 'Teko', sans-serif;
+    font-size: 1.1rem;
+    color: #bbdefb;
+    letter-spacing: 0.5px;
+}
+
+/* Sobre o projeto */
+.project-container {
+    background: rgba(20, 20, 30, 0.85);
+    border: 2px solid rgba(255, 204, 0, 0.5);
+    border-radius: 14px;
+    padding: 30px 35px;
+    box-shadow: 0 0 25px rgba(255, 204, 0, 0.2);
+}
+
+.project-title {
+    font-size: 1.6rem;
+    color: #ffcc00;
+    margin: 0 0 20px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 0 #000;
+    text-align: center;
+}
+
+.project-text {
+    font-family: 'Segoe UI', sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: #e0e0e0;
+    margin: 0 0 15px;
+    text-align: justify;
+}
+
+.project-text strong {
+    color: #ffcc00;
+    font-weight: 700;
+}
+
+/* Tags de tecnologia */
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 25px;
+}
+
+.tech-tags span {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    color: #ffcc00;
+    background: rgba(255, 204, 0, 0.1);
+    border: 1px solid #ffcc00;
+    border-radius: 6px;
+    padding: 6px 14px;
+    text-transform: uppercase;
+}
+
+/* Botão VOLTAR no estilo dos cards da tela inicial */
+.btn-voltar-neon {
+    position: fixed;
+    top: 25px;
+    left: 25px;
+    z-index: 100;
+    padding: 10px 22px;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-block;
+    transform: skewX(-8deg);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-voltar-neon:hover {
+    transform: skewX(-8deg) translateX(6px);
+    box-shadow: 0 0 25px rgba(255, 42, 42, 0.8);
+}
+
+.btn-text-voltar {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 900;
+    color: #ffffff;
+    font-style: italic;
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 0 #000;
+    transform: skewX(8deg);
+    display: inline-block;
 }

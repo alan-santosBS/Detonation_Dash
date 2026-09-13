@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sobre - Detonation Dash</title>
+
+    <!-- Fontes do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:ital,wght@1,800;1,900&family=Teko:wght@700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='images/icon.png') }}">
+</head>
+
+<body class="body-sobre">
+
+    <!-- Imagem de fundo com overlay escuro (feito via CSS) -->
+    <div class="sobre-background"></div>
+
+    <!-- Botão Voltar -->
+    <a href="/" class="card-btn btn-iniciar btn-voltar-neon">
+        <div class="card-body">
+            <span class="btn-text-voltar">⬅ VOLTAR</span>
+        </div>
+    </a>
+
+    <div class="sobre-container">
+
+        <!-- Título principal -->
+        <header class="sobre-header">
+            <h1 class="sobre-title">
+                <span class="detonation">SOBRE</span>
+                <span class="dash">NÓS</span>
+            </h1>
+            <p class="sobre-subtitle">Conheça o time por trás do Detonation Dash</p>
+        </header>
+
+        <!-- Cards dos desenvolvedores -->
+        <section class="devs-container">
+
+            <!-- ALAN SANTOS -->
+            <a href="https://github.com/alan-santosBS" target="_blank" class="dev-link">
+                <div class="dev-card">
+                    <div class="dev-photo">
+                        <img src="{{ url_for('static', filename='images/alan.jpeg') }}" alt="Alan Santos">
+                    </div>
+                    <div class="dev-info">
+                        <h3 class="dev-name">Alan Santos</h3>
+                        <p class="dev-role">Estudante de TSI - IFPE - 4º Período</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- LUHAN FELIPE -->
+            <a href="https://github.com/luhanfelipe" target="_blank" class="dev-link">
+                <div class="dev-card">
+                    <div class="dev-photo">
+                        <img src="{{ url_for('static', filename='images/luhan.jpg') }}" alt="Luhan Felipe">
+                    </div>
+                    <div class="dev-info">
+                        <h3 class="dev-name">Luhan Felipe</h3>
+                        <p class="dev-role">Estudante de TSI - IFPE - 4º Período</p>
+                    </div>
+                </div>
+            </a>
+
+            <!-- LUÍSA VITÓRIA -->
+            <a href="https://github.com/luisavmf0" target="_blank" class="dev-link">
+                <div class="dev-card">
+                    <div class="dev-photo">
+                        <img src="{{ url_for('static', filename='images/luisa.jpeg') }}" alt="Luísa Vitória">
+                    </div>
+                    <div class="dev-info">
+                        <h3 class="dev-name">Luísa Vitória</h3>
+                        <p class="dev-role">Estudante de TSI - IFPE - 4º Período</p>
+                    </div>
+                </div>
+            </a>
+
+        </section>
+
+        <!-- Sobre o projeto -->
+        <section class="project-container">
+            <h3 class="project-title">Sobre o Projeto</h3>
+
+            <p class="project-text">
+                O <strong>Detonation Dash</strong> é um jogo web onde o jogador controla um carrinho que
+                precisa atravessar um mapa quadrado de tijolos, do canto superior esquerdo até o inferior direito,
+                evitando bombas e coletando energia. O jogador pode pular uma casa que suspeite ter bomba,
+                e a aplicação exibe em tempo real o tempo decorrido, a resistência restante e os tijolos percorridos.
+            </p>
+
+            <p class="project-text">
+                O destaque técnico do projeto é o uso de <strong>arrays clássicos</strong>, conforme exigido pela
+                disciplina. Como Python não possui esse tipo de estrutura nativamente, a equipe implementou duas
+                classes próprias: <strong>ArrayClassico</strong> (array 1D) e <strong>MatrizClassica</strong>
+                (array 2D), ambas com acesso apenas por índice e tamanho.
+            </p>
+
+            <p class="project-text">
+                Desenvolvido como trabalho da disciplina de <strong>Algoritmos e Estruturas de Dados</strong>
+                no curso de <strong>Tecnologia em Sistemas para Internet (TSI)</strong> do IFPE.
+            </p>
+
+            <div class="tech-tags">
+                <span>Python</span>
+                <span>Flask</span>
+                <span>JavaScript</span>
+                <span>HTML5</span>
+                <span>CSS3</span>
+            </div>
+        </section>
+
+    </div>
+</body>
+
+</html>

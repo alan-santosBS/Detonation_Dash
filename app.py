@@ -18,6 +18,10 @@ partida = {
 def inicio():
     return render_template('inicio.html')
 
+@app.route('/sobre')
+def sobre():
+    return render_template('sobre.html')
+
 @app.route('/selecionar_tamanho')
 def selecionar_tamanho():
     return render_template('selecionar_tamanho.html')
