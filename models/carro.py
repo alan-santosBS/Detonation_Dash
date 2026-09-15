@@ -1,6 +1,6 @@
 class Carro:
 
-        """
+    """
     Representa o veículo controlado pelo jogador.
 
     Guarda o estado da partida (posição, avarias, campo de força) e as

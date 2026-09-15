@@ -52,7 +52,8 @@ def obter_estado():
     tabuleiro = partida['tabuleiro']
     tempo_decorrido = int(time.time() - partida['tempo_inicio'])
 
-    # Monta a matriz de bombas vizinhas usando MatrizClassica
+    # é responsável pelas dicas do tabuleiro, que são aqueles números 1, 2, 3... clássicos do campo minado
+    # cria a matriz de dicas preenchidas com 0
     vizinhanca = MatrizClassica(tabuleiro.tamanho, tabuleiro.tamanho, 0)
     for i in range(tabuleiro.tamanho):
         for j in range(tabuleiro.tamanho):
@@ -82,6 +83,7 @@ def obter_estado():
             linha.append(tabuleiro.revelada.obter(i, j))
         revelada_json.append(linha)
 
+    # Retorna o estado do jogo em formato JSON, incluindo a matriz do tabuleiro, a vizinhança, a matriz de reveladas, as informações do carro e o tempo decorrido
     return jsonify({
         'tamanho': tabuleiro.tamanho,
         'matriz': matriz_json,
@@ -98,6 +100,7 @@ def obter_estado():
         'tempo_decorrido': tempo_decorrido
     })
 
+# Rota para mover o carro
 @app.route('/mover', methods=['POST'])
 def mover():
     dados = request.get_json()
@@ -107,7 +110,7 @@ def mover():
     carro = partida['carro']
     tabuleiro = partida['tabuleiro']
 
-    # Valida movimento dentro dos limites da matriz
+    # Valida movimento dentro dos limites da matriz, e processa o impacto ou coleta na célula de destino
     if 0 <= destino_x < tabuleiro.tamanho and 0 <= destino_y < tabuleiro.tamanho:
         carro.mover_para(destino_x, destino_y)
         conteudo_celula = tabuleiro.matriz.obter(destino_x, destino_y)
@@ -130,6 +133,7 @@ def mover():
 
     return jsonify({'vitoria': vitoria, 'derrota': derrota})
 
+# Rota para exibir as estatísticas finais da partida
 @app.route('/estatisticas')
 def estatisticas():
     carro = partida['carro']
