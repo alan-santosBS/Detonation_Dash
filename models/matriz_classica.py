@@ -2,11 +2,10 @@ from .array_classico import ArrayClassico
 
 class MatrizClassica:
     """
-    Array 2D clássico: um array de arrays de tamanho fixo.
-    Cada linha é um ArrayClassico.
+    Array 2D clássico: um array de arrays.
 
-    Só expõe acesso por índice duplo e as dimensões.
-    Nada de append, remove, in, etc.
+    Cada linha é um ArrayClassico. Só expõe acesso por índice duplo e
+    as dimensões — nada de append, remove ou in.
     """
 
     def __init__(self, linhas, colunas, valor_inicial=None):
@@ -16,7 +15,7 @@ class MatrizClassica:
         self._linhas = linhas
         self._colunas = colunas
 
-        # Array clássico que guarda as linhas
+        # Array clássico que guarda as linhas da matriz
         self._linhas_dados = ArrayClassico(linhas)
 
         # Cada posição do array de linhas é um ArrayClassico (uma linha)
@@ -32,6 +31,7 @@ class MatrizClassica:
         return self._colunas
 
     def obter(self, i, j):
+        # Duas chamadas em cadeia: primeiro a linha, depois a coluna
         self._validar_posicao(i, j)
         linha = self._linhas_dados.obter(i)
         return linha.obter(j)
@@ -47,6 +47,7 @@ class MatrizClassica:
             linha.preencher(valor)
 
     def _validar_posicao(self, i, j):
+        # Valida os dois índices (linha e coluna) antes de qualquer operação
         if not isinstance(i, int) or not isinstance(j, int):
             raise TypeError("Os índices precisam ser inteiros.")
         if i < 0 or i >= self._linhas or j < 0 or j >= self._colunas:
